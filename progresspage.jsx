@@ -6,6 +6,12 @@ function main()
 	var number_of_progresses = 6;
 	var progress_height = 5; //mm
 	var progress_in_a_block = 2;
+	var number_of_books_plan_to_read = 12;
+
+	var progress_x1 = 72; //mm
+	var progress_width = 320; //mm
+
+	var days_in_this_year = 366;
 
 	//
 	var mydocument = app.documents.item(0);
@@ -30,13 +36,78 @@ function main()
 		{
 			var y1 = start_y + j * progress_height;
 			var y2 = y1 + progress_height;
-			var x1 = "72mm";
-			var x2 = "392mm";
-			mypage.rectangles.add(undefined, undefined, undefined, {geometricBounds: [y1 + 'mm', x1, y2 + 'mm', x2], contentType: ContentType.unassigned});
+			var x1 = progress_x1;
+			var x2 = x1 + progress_width;
+			mypage.rectangles.add(undefined, undefined, undefined, {geometricBounds: [y1 + 'mm', x1 + 'mm', y2 + 'mm', x2 + 'mm'], contentType: ContentType.unassigned});
 		}
 	}
-//	var testframe = mypage.textFrames.add();
-//	testframe.geometricBounds = ["6p", "6p", "24p", "24"p];
+
+	if (days_in_this_year == 366)
+	{
+		var months_days = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+	}
+	else
+	{
+		var months_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+	}
+	for (var i = 1; i < months_days.length; ++i)
+	{
+		months_days[i] += months_days[i - 1];
+	}
+
+	var grid_width = progress_width / days_in_this_year;
+
+	for (var i = 0; i < number_of_progresses; ++i)
+	{
+		var rect = mypage.rectangles.item(i * 2 + 1);
+		var im = 0;
+		var y1 = rect.geometricBounds[0];
+		var y2 = rect.geometricBounds[2];
+		for (var j = 1; j < days_in_this_year; ++j)
+		{
+			var x = rect.geometricBounds[1] + j * grid_width;
+			var line = mypage.graphicLines.add(undefined, undefined, undefined, {geometricBounds: [y1 + 'mm', x + 'mm', y2 + 'mm', x + 'mm']});
+			if (j == months_days[im])
+			{
+				++im;
+				line.strokeWeight = "1pt";
+			}
+			else
+			{
+				line.strokeWeight = "0.25pt";
+			}
+
+		}
+	}
+
+	var rect = mypage.rectangles.item( (number_of_progresses - 1) * 2 );
+
+	var book_grid_width = progress_width / number_of_books_plan_to_read;
+
+	var y1 = rect.geometricBounds[0];
+	var y2 = rect.geometricBounds[2];
+	for (var i = 1; i < number_of_books_plan_to_read; ++i)
+	{
+		var x = rect.geometricBounds[1] + i * book_grid_width;
+		var line = mypage.graphicLines.add(undefined, undefined, undefined, {geometricBounds: [y1 + 'mm', x + 'mm', y2 + 'mm', x + 'mm']});
+		line.strokeWeight = "1pt";
+	}
+
+	var quarter_grid_width = progress_width / 4;
+
+	for (var i = 0; i < number_of_progresses - 1; ++i)
+	{
+		var rect = mypage.rectangles.item(i * 2);
+		var y1 = rect.geometricBounds[0];
+		var y2 = rect.geometricBounds[2];
+		for (var j = 1; j < 4; ++j)
+		{
+			var x = rect.geometricBounds[1] + j * quarter_grid_width;
+			var line = mypage.graphicLines.add(undefined, undefined, undefined, {geometricBounds: [y1 + 'mm', x + 'mm', y2 + 'mm', x + 'mm']});
+			line.strokeWeight = "1pt";
+		}
+	}
+
 }
 
 function myGetBounds(myDocument, myPage){
