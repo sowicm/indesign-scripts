@@ -129,10 +129,40 @@ function main()
 	{
 		var rect = mypage.rectangles.item(i * 2 + 1);
 		var im = 0;
-		var y1 = rect.geometricBounds[0];
-		var y2 = rect.geometricBounds[2];
+		var y1_ = rect.geometricBounds[0];
+		var y2_ = rect.geometricBounds[2];
 		for (var j = 1; j < days_in_this_year; ++j)
 		{
+			var y1 = y1_;
+			var y2 = y2_;
+			switch (j)
+			{
+			case 1:
+				y1 += 2.067;
+				break;
+			case 2:
+				y1 += 1.167;
+				break;
+			case 3:
+				y1 += 0.567;
+				break;
+			default:
+				break;
+			}
+			switch (days_in_this_year - j)
+			{
+			case 1:
+				y1 += 2.067;
+				break;
+			case 2:
+				y1 += 1.167;
+				break;
+			case 3:
+				y1 += 0.567;
+				break;
+			default:
+				break;
+			}
 			var x = rect.geometricBounds[1] + j * grid_width;
 			var line = mypage.graphicLines.add(undefined, undefined, undefined, {geometricBounds: [y1 + 'mm', x + 'mm', y2 + 'mm', x + 'mm']});
 			if (j == months_days[im])
