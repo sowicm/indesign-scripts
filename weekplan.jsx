@@ -1,8 +1,18 @@
 
+Date.prototype.addDays = function(days)
+{
+    var dat = new Date(this.valueOf());
+    dat.setDate(dat.getDate() + days);
+    return dat;
+}
+var shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 main();
 function main()
 {
 	// settings
+	var start_date = "Jan 3 2016";//"2016-01-03";
+
 	var progress_height = 3; //mm
 	var progress_in_a_block = 2;
 	var number_of_books_plan_to_read = 12;
@@ -33,6 +43,7 @@ function main()
 	//to accomodate the row/column gutter values.	
 	var right_width = myWidth - left_width;
 	var myRowHeight =  myHeight / number_of_rows;
+	var date = new Date(start_date);
 	for(var myRowCounter = 0; myRowCounter < number_of_rows; myRowCounter ++){
 		myY1 = myBounds[0]+(myRowHeight*myRowCounter);
 		myY2 = myY1 + myRowHeight;
@@ -135,6 +146,23 @@ function main()
 
 					if (iprogress == 0)
 					{
+						var text, paragraph;
+						x1 -= 15;
+						var text_x2 = x1 + 14;
+						var text_y2 = y1 + 6;
+						text = shortMonths[date.getMonth()] + ' ' + date.getDate();
+						var week_start_frame = mypage.textFrames.add({geometricBounds: [y1, x1, text_y2, text_x2], contents: text});
+						paragraph = week_start_frame.paragraphs.item(0);
+						paragraph.justification = Justification.centerAlign;
+						x1 = x2 + 1;
+						text_x2 = x1 + 14;
+						date = date.addDays(6);
+						text = shortMonths[date.getMonth()] + ' ' + date.getDate();
+						var week_end_frame = mypage.textFrames.add({geometricBounds: [y1, x1, text_y2, text_x2], contents: text});
+						paragraph = week_end_frame.paragraphs.item(0);
+						paragraph.justification = Justification.centerAlign;
+						date = date.addDays(1);
+
 						var grid_width = progress_width / 7;
 
 						var y1_ = rect.geometricBounds[0];
