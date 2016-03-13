@@ -192,17 +192,58 @@ function main()
 	}
 
 	var quarter_grid_width = progress_width / 4;
+	var logi_grid_width = progress_width / 220;
 
 	for (var i = 0; i < number_of_progresses - 1; ++i)
 	{
 		var rect = mypage.rectangles.item(i * 2);
-		var y1 = rect.geometricBounds[0];
-		var y2 = rect.geometricBounds[2];
-		for (var j = 1; j < 4; ++j)
+		var y1_ = rect.geometricBounds[0];
+		var y2_ = rect.geometricBounds[2];
+
+		if (i != 0)
 		{
-			var x = rect.geometricBounds[1] + j * quarter_grid_width;
-			var line = mypage.graphicLines.add(undefined, undefined, undefined, {geometricBounds: [y1 + 'mm', x + 'mm', y2 + 'mm', x + 'mm']});
-			line.strokeWeight = "1pt";
+			var y1 = y1_;
+			var y2 = y2_;
+			for (var j = 1; j < 4; ++j)
+			{
+				var x = rect.geometricBounds[1] + j * quarter_grid_width;
+				var line = mypage.graphicLines.add(undefined, undefined, undefined, {geometricBounds: [y1 + 'mm', x + 'mm', y2 + 'mm', x + 'mm']});
+				line.strokeWeight = "1pt";
+			}
+		}
+		else
+		{
+			for (var j = 1; j < 220; ++j)
+			{
+				var y1 = y1_;
+				var y2 = y2_;
+				switch (j)
+				{
+				case 1:
+					y2 -= 1.6;
+					break;
+				case 2:
+					y2 -= 0.6;
+					break;
+				default:
+					break;
+				}
+				switch (220 - j)
+				{
+				case 1:
+					y2 -= 1.6;
+					break;
+				case 2:
+					y2 -= 0.6
+					break;
+				default:
+					break;
+				}
+
+				var x = rect.geometricBounds[1] + j * logi_grid_width;
+				var line = mypage.graphicLines.add(undefined, undefined, undefined, {geometricBounds: [y1 + 'mm', x + 'mm', y2 + 'mm', x + 'mm']});
+				line.strokeWeight = "0.25pt";
+			}
 		}
 	}
 
