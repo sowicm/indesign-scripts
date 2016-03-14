@@ -32,15 +32,10 @@ function main()
 	var page_width = page_bounds[3] - page_bounds[1];
 	var page_height = page_bounds[2] - page_bounds[0];
 
-
-
-	// splitframe
 	var myX1, myY1, myX2, myY2, myNewObject;
 	var myBounds = page_bounds
 	var myWidth = myBounds[3]-myBounds[1];
 	var myHeight =  myBounds[2]-myBounds[0];
-	//Don't bother making the frames if the width/height of the frame is too small
-	//to accomodate the row/column gutter values.	
 	var right_width = myWidth - left_width;
 	var myRowHeight =  myHeight / number_of_rows;
 	var date = new Date(start_date);
